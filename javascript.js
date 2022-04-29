@@ -1,11 +1,8 @@
-let userScore = 0
-let cpuScore = 0
-let tie = 0
-const playerSelection = prompt();
-const computerSelection = computerPlay();
-let r = "Rock"
-let s = "Scissors"
-let p = "Paper"
+let userScore = parseInt(0);
+let cpuScore = parseInt(0);
+let win = "You Win!"
+let lose = "You Lose!"
+let tie = "It's a Tie!"
 
 
 
@@ -14,39 +11,66 @@ let p = "Paper"
 
 
 function computerPlay () {
-let computerChoice = ["Rock", "Paper", "Scissors"];
-return computerChoice[Math.floor(Math.random()*computerChoice.length)];
-};
-
-function playRound(playerSelection, computerSelection) {
-    if (playerSelection === computerSelection){
-        
-    console.log("Tie");
-    tie++
-    return tie;
-    
-    } else if (playerSelection===r&&computerSelection===s || playerSelection===p&&computerSelection===r || playerSelection===s&&computerSelection===p){
-        
-    console.log("You Win! " + playerSelection + " beats " + computerSelection + "!");
-    userScore++
-    return userScore;
-    }
-    else {
-        
-    console.log("You Lose! " + computerSelection + " beats " + playerSelection + "!");
-    cpuScore++
-    return cpuScore
+   let random = Math.random();
+    if (random <= 0.3333) {
+        return "paper";
+    } else if (random >= 0.6666) {
+        return "rock";
+    } else {
+        return "scissors";
     }
   }
-  playRound(playerSelection, computerSelection)
-  console.log(tie, userScore, cpuScore)
 
-  function game(){
-    for (let i = 0; (userScore + cpuScore) < 5; i++) {
-        playRound(playerSelection, computerSelection)
-        console.log(`The current score is: Player - ${userScore}, Computer - ${cpuScore}.`);
+  function playRound(playerSelection, computerSelection) {
+    if (playerSelection.toLowerCase() === "rock") {
+        if (computerSelection === "paper") {
+            cpuScore++;
+            return lose;
+        } else if (computerSelection === "rock") {
+            return tie;
+        } else {
+            userScore++;
+            return win;
+        }
     }
-    
+
+    if (playerSelection.toLowerCase() === "scissors") {
+        if (computerSelection === "paper") {
+            userScore++;
+            return win;
+        } else if (computerSelection === "rock") {
+            cpuScore++;
+            return lose;
+        } else {
+            return tie;
+        }
+    }
+
+    if (playerSelection.toLowerCase() === "paper") {
+        if (computerSelection === "paper") {
+            return tie;
+        } else if (computerSelection === "rock") {
+            userScore++;
+            return win;
+        } else {
+            cpuScore++;
+            return lose;
+        }
+    }
+}
+let i = 0
+function game(){
+  let playerSelection = prompt("Pick a move");
+  const computerSelection = computerPlay()
+  console.log(playRound(playerSelection, computerSelection))
+  console.log("your score = " + userScore);
+  console.log("Computer's score = " + cpuScore);
+  i++;
+  if (i !== 5) {
+      game();
+  } else {
+      alert("Game Over=> User("+userScore+") vs Computer("+cpuScore+")");
   }
-  game()
+}
+  game();
   
